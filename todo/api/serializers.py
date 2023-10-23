@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from .models import TodoList
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -13,6 +14,12 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ['url', 'name']
+        
+
+class ListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TodoList
+        fields = ['name', 'description']
         
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
