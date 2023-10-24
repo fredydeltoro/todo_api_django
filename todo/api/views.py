@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets, generics
+from rest_framework import viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
 from .models import TodoList
@@ -30,7 +30,13 @@ class CustomObtainPairView(TokenObtainPairView):
     return super().post(request, *args, **kwargs)
   
 
-class TodoListView(generics.ListCreateAPIView):
+class TodoListView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = TodoList.objects.all()
     serializer_class = ListSerializer
+    
+    def get_queryset(self):
+      return TodoList.objects.all().filter(user=self.request.user)
+    
+    def create(self, request, *args, **kwargs):
+      request.data['user'] = request.user.id
+      return super().create(request, *args, **kwargs)

@@ -19,7 +19,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
         model = TodoList
-        fields = ['name', 'description']
+        fields = ['id', 'name', 'description', 'user']
         
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
