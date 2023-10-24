@@ -40,3 +40,7 @@ class TodoListView(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
       request.data['user'] = request.user.id
       return super().create(request, *args, **kwargs)
+    
+    def update(self, request, *args, **kwargs):
+      request.data['user'] = request.user.id
+      return super().update(request, *args, **kwargs)
