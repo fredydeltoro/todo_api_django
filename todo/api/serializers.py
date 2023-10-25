@@ -17,9 +17,11 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         
 
 class ListSerializer(serializers.ModelSerializer):
+  itemscount = serializers.IntegerField()
+  
   class Meta:
     model = TodoList
-    fields = ['id', 'name', 'description', 'user']
+    fields = ['id', 'name', 'description', 'user', 'itemscount']
 
 
 class TodoSerializer(serializers.ModelSerializer):
