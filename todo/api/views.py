@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User, Group
+from django.db.models import Count
 from rest_framework import viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
@@ -37,7 +38,7 @@ class TodoListView(viewsets.ModelViewSet):
     serializer_class = ListSerializer
     
     def get_queryset(self):
-      return TodoList.objects.all().filter(user=self.request.user)
+      return TodoList.objects.filter(user=self.request.user).annotate(itemscount=Count('todo'))
     
     def create(self, request, *args, **kwargs):
       request.data['user'] = request.user.id
