@@ -53,9 +53,9 @@ class TodoView(viewsets.ModelViewSet):
     serializer_class = TodoSerializer
     
     def get_queryset(self):
-      return Todo.objects.all().filter(todo_list=self.kwargs['pk'])
+      return Todo.objects.all().filter(todo_list=self.kwargs['list_id'])
     
     def create(self, request, *args, **kwargs):
-      list_id = kwargs['pk']
+      list_id = kwargs['list_id']
       request.data['todo_list'] = list_id
       return super().create(request, *args, **kwargs)
