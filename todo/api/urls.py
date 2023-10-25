@@ -18,7 +18,7 @@ todo_list_detail = TodoListView.as_view({
     'delete': 'destroy'
 })
 
-todo_list = TodoView.as_view({
+todo_item_list = TodoView.as_view({
   'get': 'list',
   'post': 'create'
 })
@@ -28,5 +28,5 @@ urlpatterns = [
   path('login', CustomObtainPairView.as_view(), name='token_obtain_pair'),
   path('todos', todo_list, name='todos'),
   path('todos/<int:pk>', todo_list_detail, name='todo_list_detail'),
-  path('todos/<int:pk>/items', todo_list, name='todo_items')
+  path('todos/<int:pk>/items', todo_item_list, name='todo_items')
 ]
