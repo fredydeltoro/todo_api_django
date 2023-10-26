@@ -1,21 +1,16 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.db.models import Count
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
 from .models import TodoList, Todo
-from .serializers import UserSerializer, GroupSerializer, ListSerializer, TodoSerializer
+from .serializers import UserSerializer, ListSerializer, TodoSerializer
 
 
-class UserView(viewsets.ModelViewSet):
+class UserView(generics.CreateAPIView):
   queryset = User.objects.all()
   serializer_class = UserSerializer
 
-
-class GroupView(viewsets.ModelViewSet):
-  queryset = Group.objects.all()
-  serializer_class = GroupSerializer
-  
   
 class CustomObtainPairView(TokenObtainPairView):
   def post(self, request, *args, **kwargs):
