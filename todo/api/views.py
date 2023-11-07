@@ -40,7 +40,7 @@ class TodoListView(viewsets.ModelViewSet):
   serializer_class = ListSerializer
 
   def get_queryset(self):
-    return TodoList.objects.filter(user=self.request.user).annotate(itemscount=Count('todo'))
+    return TodoList.objects.todos_count(user=self.request.user)
 
   def create(self, request, *args, **kwargs):
     request.data['user'] = request.user.id
