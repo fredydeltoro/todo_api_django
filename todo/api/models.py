@@ -5,24 +5,33 @@ from model_utils.fields import AutoCreatedField, AutoLastModifiedField
 User = get_user_model()
 
 # Create your models here.
+
+
+class ListQuerySet(models.QuerySet):
+  def todos_count(self, **kwargs):
+    return self.filter(**dict(kwargs, todos__isnull=False)).annotate(itemscount=models.Count('todos'))
+
+
 class TodoList(models.Model):
   name = models.CharField(max_length=100, blank=False, null=False)
   description = models.TextField()
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   created_at = AutoCreatedField()
   updated_at = AutoLastModifiedField()
-  
+  objects = ListQuerySet.as_manager()
+
   def __str__(self):
     return self.name
-      
+
 
 class Todo(models.Model):
   name = models.CharField(max_length=100, blank=False, null=False)
   description = models.TextField()
   status = models.BooleanField(default=False)
-  todo_list = models.ForeignKey(TodoList, on_delete=models.CASCADE)
+  todo_list = models.ForeignKey(
+      TodoList, on_delete=models.CASCADE, related_name='todos')
   created_at = AutoCreatedField()
   updated_at = AutoLastModifiedField()
-  
+
   def __str__(self):
     return self.name
